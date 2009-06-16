@@ -1,0 +1,230 @@
+package com.pajb.ire
+
+#Import the classes to support the Insurance domain
+import com.pajb.ire.domain.Address
+import com.pajb.ire.domain.Address.MosaicCode
+import com.pajb.ire.domain.Bike
+import com.pajb.ire.domain.Bike.Colour
+import com.pajb.ire.domain.Person
+import com.pajb.ire.domain.Person.Gender
+import com.pajb.ire.domain.Quote
+import com.pajb.ire.domain.Bid
+
+import com.pajb.ire.engine.QuoteWorkingObject
+
+#Declare global variables here
+global QuoteWorkingObject quoteWorkingObject
+
+#Rules
+
+# Underwriting Rules
+rule "Underwriting Rule 1_1"
+	agenda-group "underwriting validation"
+	when
+		bike : Bike (value > 3000)
+	then
+		quoteWorkingObject.decline(drools.getRule(), "bike value ("+bike.getValue()+") is greater than 3000");
+end
+
+rule "Underwriting Rule 1_2"
+	agenda-group "underwriting validation"
+	when
+		bike : Bike ( value > 400 , gears > 10)
+	then
+		quoteWorkingObject.decline(drools.getRule(), "bike has more than 10 gears and is valued at over 400");
+end
+
+rule "Underwriting Rule 2_1"
+	agenda-group "underwriting validation"
+	when
+		bike : Bike ( value > 200, colour == Colour.BLUE )
+	then
+		quoteWorkingObject.decline(drools.getRule(), "bike is blue and is valued at over 200");
+end
+
+rule "Underwriting Rule 2_2"
+	agenda-group "underwriting validation"
+	when
+		bike : Bike ( colour == Colour.GREEN )
+   	then
+   		quoteWorkingObject.decline(drools.getRule(), "bike is green");
+end		
+
+rule "Underwriting Rule 2_3"
+	agenda-group "underwriting validation"
+	when
+		bike : Bike ( value > 1000, colour == Colour.BLACK)
+   	then
+   		quoteWorkingObject.decline(drools.getRule(), "bike is black and valued at over 1000");
+end
+
+rule "Underwriting Rule 3_1"
+	agenda-group "underwriting validation"
+	when
+		person : Person ( age < 18)
+   	then
+   		quoteWorkingObject.decline(drools.getRule(), "person is under 18");
+end
+
+rule "Underwriting Rule 3_2"
+	agenda-group "underwriting validation"
+	when
+		person : Person ( gender == Gender.MALE, age > 70)
+   	then
+   		quoteWorkingObject.decline(drools.getRule(), "person is male and over 70");
+end
+
+rule "Underwriting Rule 3_3"
+	agenda-group "underwriting validation"
+	when
+		person : Person ( gender == Gender.FEMALE, age > 75)
+   	then
+   		quoteWorkingObject.decline(drools.getRule(), "person is female and over 75");
+end
+
+rule "Underwriting Rule 3_4"
+	agenda-group "underwriting validation"
+	when
+		person : Person ( age > 60, declaredFit == false)
+   	then
+   		quoteWorkingObject.decline(drools.getRule(), "person is over 60 has not been declared fit");
+end
+
+# Rating Rules
+rule "Bootstrap Pricing"
+	agenda-group "base rating"
+	when
+		Person()
+	then
+		quoteWorkingObject.setPremium(100.0);
+		
+end
+
+# 1 - Modify Base Premium
+rule "Youngest Person is a Male, Declared Fit +10% on Premium"
+	agenda-group "rating"
+	when
+		Person ( $age : age, gender == Gender.MALE, declaredFit == true)
+		Person ( age > $age )
+	then
+		quoteWorkingObject.multiplyPremium(1.10);
+end
+
+rule "Youngest Person is a Female, Declared Fit -10% on Premium"
+	agenda-group "rating"
+	when
+		Person ( $age : age, gender == Gender.FEMALE, declaredFit == true)
+		Person ( age > $age )
+	then
+		quoteWorkingObject.multiplyPremium(0.90);
+end
+
+rule "Youngest Person is a Male, not Declared Fit +15% on Premium"
+	agenda-group "rating"
+	when
+		Person ( $age : age, gender == Gender.MALE, declaredFit == false)
+		Person ( age > $age )
+	then
+		quoteWorkingObject.multiplyPremium(1.15);
+end
+
+rule "Youngest Person is a Female, not Declared Fit -5% on Premium"
+	agenda-group "rating"
+	when
+		Person ( $age : age, gender == Gender.FEMALE, declaredFit == false)
+		Person ( age > $age )
+	then
+		quoteWorkingObject.multiplyPremium(0.95);
+end
+
+# 2 - Apply modifiers based on Mosaic Code
+rule "Mosaic Code A -10 to Premium"
+	agenda-group "mosaic modifiers"
+	when
+		Address ( mosaicCode == MosaicCode.A)
+	then
+		quoteWorkingObject.addPremium(-10.0);
+end
+
+rule "Mosaic Code B -10.5 to Premium"
+	agenda-group "mosaic modifiers"
+	when
+		Address ( mosaicCode == MosaicCode.B)
+	then
+		quoteWorkingObject.addPremium(-10.5);
+end
+
+rule "Mosaic Code C -11 to Premium"
+	agenda-group "mosaic modifiers"
+	when
+		Address ( mosaicCode == MosaicCode.C)
+	then
+		quoteWorkingObject.addPremium(-11.0);
+end
+
+# 3 - Modifiers Based on Older Person and on Bike Value
+rule "Oldest Person is Male and Bike Value >200 +10% on Premium"
+	agenda-group "additional modifiers"
+	when	
+		Person ( $age : age, gender == Gender.MALE)
+		Person ( age < $age )
+		Bike ( value > 200 )
+	then
+		quoteWorkingObject.multiplyPremium(1.1);
+end
+
+rule "Oldest Person is Male and Bike Value >400 +30% on Premium"
+	agenda-group "additional modifiers"
+	when	
+		Person ( $age : age, gender == Gender.MALE)
+		Person ( age < $age )
+		Bike ( value > 400 )
+	then
+		quoteWorkingObject.multiplyPremium(1.3);
+end
+
+rule "Oldest Person is Female and Bike Value >100 +10% on Premium"
+	agenda-group "additional modifiers"
+	when	
+		Person ( $age : age, gender == Gender.FEMALE)
+		Person ( age < $age )
+		Bike ( value > 100 )
+	then
+		quoteWorkingObject.multiplyPremium(1.1);
+end
+
+rule "Oldest Person is Female and Bike Value >1000 +999% on Premium"
+	agenda-group "additional modifiers"
+	when	
+		Person ( $age : age, gender == Gender.FEMALE)
+		Person ( age < $age )
+		Bike ( value > 1000 )
+	then
+		quoteWorkingObject.multiplyPremium(9.99);
+end
+
+
+# Tracing Rules for Logging
+rule "Trace Asserted Person Objects"
+    agenda-group "trace assertions"
+	when
+		person : Person()
+	then 
+		System.out.println("Person Asserted: "+person);
+end
+
+rule "Trace Asserted Bike Objects"	
+    agenda-group "trace assertions"	
+    when
+		bike : Bike()
+	then 
+		System.out.println("Bike Asserted: "+bike);
+end
+
+rule "Trace Asserted Address Objects"
+	agenda-group "trace assertions"
+	when
+		address : Address()
+	then
+		System.out.println("Address Asserted: "+address);
+end

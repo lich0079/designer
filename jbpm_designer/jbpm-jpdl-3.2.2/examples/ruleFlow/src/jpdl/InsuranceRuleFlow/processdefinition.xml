@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition
+  xmlns="urn:jbpm.org:jpdl-3.2"  name="InsuranceRuleFlow">
+   <start-state name="start">
+      <transition name="" to="underwriting validation"></transition>
+   </start-state>
+   <node name="base rating">
+      <action class="com.pajb.ire.engine.AgendaGroupActionHandler">
+         <agendaGroup>base rating</agendaGroup>
+      </action>
+      <transition name="to rating" to="rating"></transition> 
+   </node>
+   <node name="underwriting validation">
+       <action class="com.pajb.ire.engine.AgendaGroupActionHandler">
+         <agendaGroup>underwriting validation</agendaGroup>
+      </action>
+      <transition name="to decline decision" to="decline?"></transition>
+   </node>
+   <end-state name="end1"></end-state>
+   <decision name="decline?">
+      <transition name="no" to="base rating">
+      	<condition expression="#{quoteWorkingObject.declineCount == 0}"/>
+      </transition>
+      <transition name="yes" to="end1">
+         <condition expression="#{quoteWorkingObject.declineCount > 0}"/>
+      </transition>
+   </decision>
+   <node name="rating">
+      <action class="com.pajb.ire.engine.AgendaGroupActionHandler">
+         <agendaGroup>rating</agendaGroup>
+      </action>
+      <transition name="to mosaic modifiers" to="mosaic modifiers"></transition>
+   </node>
+   <node name="mosaic modifiers">
+      <action class="com.pajb.ire.engine.AgendaGroupActionHandler">
+         <agendaGroup>mosaic modifiers</agendaGroup>
+      </action>
+      <transition name="to additional modifiers" to="additional modifiers"></transition>
+   </node>
+   <node name="additional modifiers">
+       <action class="com.pajb.ire.engine.AgendaGroupActionHandler">
+         <agendaGroup>additional modifiers</agendaGroup>
+      </action>
+      <transition name="to end" to="end1"></transition>
+   </node>
+</process-definition>

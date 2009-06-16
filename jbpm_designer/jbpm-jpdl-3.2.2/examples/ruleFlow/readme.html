@@ -1,0 +1,30 @@
+<html>
+<body>
+<h1>ruleFlow</h1>
+
+
+<p>This example shows how to use jBPM as a RuleFlow component for JBoss Rules.</p>
+
+<p>To create this example in Eclipse, you should first have created a project for jbpm.3 in your workspace. You should also have installed the latest version of the JBoss Rules IDE plugin, e.g., jbossrules-ide-3.0.5-bin. Next, use the New -> Other New Rule Project and uncheck Use Default Location and browse to the jbpm-jpdl-{version}/examples/ruleFlow directory and give it the project name ruleFlow. Go to the ruleFlow project Build Path Source tab add folders ruleFlow/src/jpdl and ruleFlow/src/test. Use the Projects Tab to add jbpm.3. This should result in a clean compilation (no errors).</p>
+
+<p>This example consists of the following files:</p>
+
+<ul>src/java/../engine/AgendaGroupActionHandler.java - gets the workingMemory from the contextInstance, sets the focus to the Agenda Group specified in the configuration, and fires the rules.</ul>
+
+<ul>src/java/../engine/QuoteEngine.java - creates a quoteWorkingObject, creates the ruleBase from the InsuranceRules.drl file, starts a processInstance, creates the workingMemory and sets it on the contextInstance, sets the quoteWorkingObject as a global, and signals the processInstance to continue.</ul>
+
+<ul>src/java/../engine/*.java - classes to support the example.</ul>
+
+<ul>src/java/../domain/*.java - domain model classes to support the example.</ul>
+
+<ul>src/test/java/../client/IreClient.java - Java Application for driving ruleFlow example.</ul>
+
+<ul>src/rules/InsuranceRules.drl - JBoss Rules rule file. Notice the Agenda Groups that are defined</ul>
+
+<ul>src/jpdl/InsuranceRuleFlow/processdefinition.xml - defines the processDefinition. See the ActionHandler configuration on the various nodes.</ul>
+
+
+<p>To run the example, run the IreClient.java as a Java Application. Try different combinations of bike colors, ages, etc, and notice the results. Hint - a yellow bike with 5 gears will be priced.</p>
+
+</body>
+</html>
