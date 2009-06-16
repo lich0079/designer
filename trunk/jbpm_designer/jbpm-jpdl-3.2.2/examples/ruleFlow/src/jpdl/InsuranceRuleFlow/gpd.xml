@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-diagram name="InsuranceRuleFlow" width="761" height="775">
+  <node name="start" x="233" y="13" width="140" height="40">
+    <transition name="">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="base rating" x="129" y="313" width="140" height="40">
+    <transition name="to rating">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="underwriting validation" x="223" y="100" width="159" height="40">
+    <transition name="to decline decision">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="end1" x="287" y="719" width="157" height="40"/>
+  <node name="decline?" x="231" y="201" width="144" height="40">
+    <transition name="no">
+      <label x="5" y="-10"/>
+    </transition>
+    <transition name="yes">
+      <label x="5" y="-10"/>
+      <bendpoint w1="63" h1="120" w2="-1" h2="-180"/>
+    </transition>
+  </node>
+  <node name="rating" x="128" y="416" width="140" height="40">
+    <transition name="to mosaic modifiers">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="mosaic modifiers" x="129" y="521" width="140" height="40">
+    <transition name="to additional modifiers">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="additional modifiers" x="128" y="625" width="140" height="40">
+    <transition name="to end">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+</process-diagram>
