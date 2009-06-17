@@ -1514,31 +1514,31 @@
    <extension
          point="org.eclipse.ui.activities">
       <activity
-            id="ru.runa.jbpm.ui.search"
+            id="com.joinbright.jbpm.ui.disable"
             name="search activity"/>
       <activityPatternBinding
-            activityId="ru.runa.jbpm.ui.search"
+            activityId="com.joinbright.jbpm.ui.disable"
             pattern="org.eclipse.*/.*search.*"/>
       <activityPatternBinding
-            activityId="ru.runa.jbpm.ui.search"
+            activityId="com.joinbright.jbpm.ui.disable"
             pattern="org.eclipse.*/.*run.*"/>
       <activityPatternBinding
-            activityId="ru.runa.jbpm.ui.search"
+            activityId="com.joinbright.jbpm.ui.disable"
             pattern="org.eclipse.*/.*debug.*"/>
       <activityPatternBinding
-            activityId="ru.runa.jbpm.ui.search"
+            activityId="com.joinbright.jbpm.ui.disable"
             pattern="org.eclipse.*/.*team.*"/>
       <activityPatternBinding
-            activityId="ru.runa.jbpm.ui.search"
+            activityId="com.joinbright.jbpm.ui.disable"
             pattern="org.eclipse.*/.*compare.*"/>
       <activityPatternBinding
-            activityId="ru.runa.jbpm.ui.search"
+            activityId="com.joinbright.jbpm.ui.disable"
             pattern="org.eclipse.*/.*replace.*"/>
       <activityPatternBinding
-            activityId="ru.runa.jbpm.ui.search"
+            activityId="com.joinbright.jbpm.ui.disable"
             pattern="org.eclipse.*/.*goto.*"/>
       <activityPatternBinding
-            activityId="ru.runa.jbpm.ui.search"
+            activityId="com.joinbright.jbpm.ui.disable"
             pattern="org.eclipse.*/.*xml.*"/>
    </extension>
    <extension

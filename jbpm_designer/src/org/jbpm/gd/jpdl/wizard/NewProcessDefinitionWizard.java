@@ -80,6 +80,7 @@ public class NewProcessDefinitionWizard extends Wizard implements INewWizard {
 			IFile gpdFile = folder.getFile("gpd.xml");
 			gpdFile.create(createInitialGpdInfo(), true, null);
 //			IDE.openEditor(getActivePage(), processDefinitionFile);
+			//强制已org.jbpm.gd.jpdl.editor打开文件
 			getActivePage().openEditor(new FileEditorInput(processDefinitionFile),"org.jbpm.gd.jpdl.editor");
 			openPropertiesView();
 			BasicNewResourceWizard.selectAndReveal(processDefinitionFile, getActiveWorkbenchWindow());
