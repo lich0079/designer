@@ -1457,7 +1457,7 @@ public class MyWorkbenchActionBuilder extends ActionBarAdvisor {
         IToolBarManager toolBarManager = toolBarItem.getToolBarManager();
         if (toolBarManager == null) {
             // error if this happens, navigation toolbar assumed to always exist
-            IDEWorkbenchPlugin.log("Navigate toolbar is missing"); //$NON-NLS-1$
+            IDEWorkbenchPlugin.log("Navigate toolbar is missing"); 
             return;
         }
 
