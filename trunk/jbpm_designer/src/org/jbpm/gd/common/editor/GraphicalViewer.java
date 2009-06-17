@@ -28,11 +28,9 @@ import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
-import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.ToggleGridAction;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
@@ -47,10 +45,12 @@ public abstract class GraphicalViewer extends ScrollingGraphicalViewer {
     public GraphicalViewer(Editor editor) {
         this.editor = editor;
         editor.getSelectionSynchronizer().addViewer(this);
+        //Ìí¼Ó¿ì½Ý¼ü***************************************
         KeyHandler keyHandler = new GraphicalViewerKeyHandler(this);
         keyHandler.setParent(initSharedKeyHandler());
         setKeyHandler(initSharedKeyHandler());
         // setKeyHandler(initSharedKeyHandler());
+        //***********************************************
         setRootEditPart(new ScalableFreeformRootEditPart());
         prepareGrid();
     }
