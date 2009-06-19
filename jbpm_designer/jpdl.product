@@ -10,7 +10,7 @@
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
-   <windowImages/>
+   <windowImages i16="/jbpm_designer/icons/eclipse_icon.gif"/>
 
 
    <launcher>

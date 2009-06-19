@@ -1496,6 +1496,10 @@
                name="appName"
                value="工作流设计器">
          </property>
+         <property
+               name="windowImages"
+               value="icons/eclipse_icon.gif">
+         </property>
       </product>
    </extension>
    <extension
