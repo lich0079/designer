@@ -67,7 +67,8 @@ import org.eclipse.ui.menus.IMenuService;
  */
 public final class MyWorkbenchActionBuilder2 extends ActionBarAdvisor {
     private final IWorkbenchWindow window;
-
+    private int id;
+    private String name;
     // generic actions
     private IWorkbenchAction closeAction;
 
